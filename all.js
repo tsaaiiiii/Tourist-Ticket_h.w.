@@ -85,6 +85,18 @@ const ticketRegion = document.querySelector("#ticketRegion");
 const addTicket_form = document.querySelector(".addTicket-form");
 
 addBtn.addEventListener("click", function (e) {
+  if (
+    ticketName.value == "" &&
+    imgUrl.value == "" &&
+    price.value == "" &&
+    ticketNum.value == "" &&
+    ticketRate.value == "" &&
+    ticketDescription.value == "" &&
+    ticketRegion.value == ""
+  ) {
+    alert("請填寫所有資料");
+    return;
+  }
   let obj = {
     //   name : ticketName.value,
     //  imgUrl : imgUrl.value,

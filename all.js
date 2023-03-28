@@ -45,6 +45,11 @@ function getApi() {
     .then(function (response) {
       data = response.data.data;
       render();
+      load([
+        ["高雄", 1],
+        ["台北", 1],
+        ["台中", 1],
+      ]);
     })
     .catch((err) => {
       console.log(err);
@@ -52,6 +57,24 @@ function getApi() {
 }
 
 const ul = document.querySelector(".ticketCard-area");
+
+function load(columns) {
+  let chart = c3.generate({
+    bindto: "#chart", // HTML 元素綁定
+    data: {
+      columns: columns,
+      type: "donut",
+      colors: {
+        高雄: "#E68618",
+        台中: "#5151D3",
+        台北: "#26BFC7",
+      },
+    },
+    donut: {
+      title: "套票地區比重",
+    },
+  });
+}
 
 function render() {
   let str = "";
@@ -85,10 +108,12 @@ function render() {
         </div>
       </li>`;
   });
+
   ul.innerHTML = str;
+  load(newColums);
 }
 getApi();
-
+let newColums = [];
 const searchResult_text = document.querySelector("#searchResult-text");
 const addBtn = document.querySelector(".addTicket-btn");
 const ticketName = document.querySelector("#ticketName");
@@ -134,6 +159,22 @@ addBtn.addEventListener("click", function (e) {
   data.push(obj);
   console.log(data);
   searchResult_text.innerHTML = `本次搜尋共 ${data.length} 筆資料`;
+
+  let donut = {};
+  data.forEach(function (item) {
+    if (donut[item.area] == undefined) {
+      donut[item.area] = 1;
+    } else {
+      donut[item.area] += 1;
+    }
+  });
+  console.log(donut);
+
+  Object.entries(donut).forEach(function (item) {
+    newColums.push(item);
+  });
+  console.log(newColums);
+
   render();
   //  ticketName.value = "";
   //  imgUrl.value = "";
@@ -194,7 +235,7 @@ regionSearch.addEventListener("change", function (event) {
       return false;
     }
   });
-  console.log(newData);
+
   ul.innerHTML = str;
   searchResult_text.innerHTML = `本次搜尋共 ${newData.length} 筆資料`;
 });

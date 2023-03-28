@@ -57,7 +57,7 @@ function getApi() {
 }
 
 const ul = document.querySelector(".ticketCard-area");
-
+let newColums = [];
 function load(columns) {
   let chart = c3.generate({
     bindto: "#chart", // HTML 元素綁定
@@ -72,6 +72,9 @@ function load(columns) {
     },
     donut: {
       title: "套票地區比重",
+      label: {
+        show: false,
+      },
     },
   });
 }
@@ -113,7 +116,7 @@ function render() {
   load(newColums);
 }
 getApi();
-let newColums = [];
+
 const searchResult_text = document.querySelector("#searchResult-text");
 const addBtn = document.querySelector(".addTicket-btn");
 const ticketName = document.querySelector("#ticketName");
@@ -168,7 +171,7 @@ addBtn.addEventListener("click", function (e) {
       donut[item.area] += 1;
     }
   });
-  console.log(donut);
+  //console.log(donut);
 
   Object.entries(donut).forEach(function (item) {
     newColums.push(item);
@@ -183,6 +186,7 @@ addBtn.addEventListener("click", function (e) {
   //  ticketNum.value = "";
   //  price.value = "";
   //  ticketRate.value = "";
+  newColums = [];
   addTicket_form.reset();
   // 以後請用這個方法！！！！！！
 });

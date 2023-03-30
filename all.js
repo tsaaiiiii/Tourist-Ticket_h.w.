@@ -75,6 +75,7 @@ function load(columns) {
       label: {
         show: false,
       },
+      width: 16,
     },
   });
 }
